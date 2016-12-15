@@ -2,22 +2,12 @@
 {
     public class BowlingGame
     {
-        const int FIRSTFRAME = 1;
-        const int LASTFRAME = 10;
-        private int _frame = FIRSTFRAME;
-        private int _rollInFrame = FIRSTFRAME;
-        private readonly int[,] _scorecardrolls = new int[LASTFRAME + 1, 3];
-        private readonly int[] _scorecardframe = new int[LASTFRAME + 1];
-
-        public BowlingGame()
-        {
-            for (var f = FIRSTFRAME; f <= LASTFRAME; f++)
-            {
-                _scorecardframe[f] = 0;
-                for (var r = 1; r == 2; r++)
-                    _scorecardrolls[f, r] = 0;
-            }
-        }
+        const int Firstframe = 1;
+        const int Lastframe = 10;
+        private int _frame = Firstframe;
+        private int _rollInFrame = Firstframe;
+        private readonly int[,] _scorecardrolls = new int[Lastframe + 3, 3]; // need to hold up to three strikes for 10th frame
+        private readonly int[] _scorecardframe = new int[Lastframe + 3];
 
         public void Roll(int pins)
         {
@@ -26,6 +16,11 @@
                 pins = 10 - _scorecardrolls[_frame, 1];
             }
             _scorecardrolls[_frame, _rollInFrame] = pins;
+            if (_frame >= 10 && pins == 10 && _rollInFrame == 1)
+            {
+                _frame ++;
+                return;
+            }
             _rollInFrame++;
             if (_rollInFrame <= 2) return;
             //reset for next frame 
@@ -37,7 +32,7 @@
         {
             int score = 0;
 
-            for (var frame = FIRSTFRAME; frame <= LASTFRAME; frame++)
+            for (var frame = Firstframe; frame <= Lastframe; frame++)
             {
                 _scorecardframe[frame] = _scorecardrolls[frame, 1] + _scorecardrolls[frame, 2];
 

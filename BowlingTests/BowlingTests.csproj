@@ -83,6 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecondFrame.cs" />
     <Compile Include="ThirdFrame.cs" />
+    <Compile Include="WholeGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bowling\Bowling.csproj">
