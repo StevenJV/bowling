@@ -2,72 +2,73 @@
 {
     public class BowlingGame
     {
-        private int _score = 0;
-        private int _frame = 1;
-        private int _rollInFrame = 1;
-        private int _frameScore = 0;
-        private readonly int[,] _scorecard = new int[11, 3];
+        const int FIRSTFRAME = 1;
+        const int LASTFRAME = 10;
+        private int _frame = FIRSTFRAME;
+        private int _rollInFrame = FIRSTFRAME;
+        private readonly int[,] _scorecardrolls = new int[LASTFRAME + 1, 3];
+        private readonly int[] _scorecardframe = new int[LASTFRAME + 1];
 
         public BowlingGame()
         {
-            for (var f = 0; f == 10; f++)
+            for (var f = FIRSTFRAME; f <= LASTFRAME; f++)
+            {
+                _scorecardframe[f] = 0;
                 for (var r = 1; r == 2; r++)
-                    _scorecard[f, r] = 0;
+                    _scorecardrolls[f, r] = 0;
+            }
         }
 
         public void Roll(int pins)
         {
-            if (_rollInFrame == 2) _frameScore = _scorecard[_frame, 1];
-            if (_frameScore + pins > 10)
+            if (_rollInFrame == 2 && (_scorecardrolls[_frame, 1] + pins > 10))
             {
-                pins = 10 - _frameScore;
+                pins = 10 - _scorecardrolls[_frame, 1];
             }
-            _scorecard[_frame, _rollInFrame] = pins;
-            _frameScore += pins;
-            if (PreviousFrameWasStrike())
-            {
-                _score = _score + pins;
-                if (PreviousTwoFramesWereStrikes() && ThisIsFirstRollInFrame()) _score = _score + 10;
-            }
-            else if (PreviousFrameWasSpare() && ThisIsFirstRollInFrame())
-            {
-                _score = _score + pins;
-            }
-
-            _score = _score + pins;
+            _scorecardrolls[_frame, _rollInFrame] = pins;
             _rollInFrame++;
-
             if (_rollInFrame <= 2) return;
             //reset for next frame 
             _frame++;
             _rollInFrame = 1;
-            _frameScore = 0;
         }
-
-        private bool ThisIsFirstRollInFrame()
-        {
-            return _rollInFrame == 1;
-        }
-
-        private bool PreviousTwoFramesWereStrikes()
-        {
-            return _scorecard[_frame - 2, 1] == 10 && _scorecard[_frame - 1, 1] == 10;
-        }
-
-        private bool PreviousFrameWasStrike()
-        {
-            return _scorecard[_frame - 1, 1] == 10;
-        }
-
-        private bool PreviousFrameWasSpare()
-        {
-            return (_scorecard[_frame - 1, 1] + _scorecard[_frame - 1, 2]) == 10;
-        }
-
+        
         public int Score()
         {
-            return _score;
+            int score = 0;
+
+            for (var frame = FIRSTFRAME; frame <= LASTFRAME; frame++)
+            {
+                _scorecardframe[frame] = _scorecardrolls[frame, 1] + _scorecardrolls[frame, 2];
+
+                if (FrameIsAStrike(frame))
+                {
+                    _scorecardframe[frame] += _scorecardrolls[frame + 1, 1];
+                    if (FrameIsAStrike(frame+1)) // next frame was also a strike
+                    { _scorecardframe[frame] += _scorecardrolls[frame + 2, 1]; } // add first ball from 2 frames forward
+                    else
+                    { _scorecardframe[frame] += _scorecardrolls[frame + 1, 2]; } // add second ball from next frame
+                }
+
+                if (FrameIsASpare(frame))
+                {
+                    _scorecardframe[frame] += _scorecardrolls[frame + 1, 1];
+                }
+
+                // accumulate the game score 
+                score = score + _scorecardframe[frame];
+            }
+            return score;
         }
 
+        private bool FrameIsASpare(int f)
+        {
+            return (_scorecardrolls[f, 1] + _scorecardrolls[f, 2] == 10) && _scorecardrolls[f, 1] != 10;
+        }
+
+        private bool FrameIsAStrike(int f)
+        {
+            return _scorecardrolls[f, 1] == 10;
+        }
     }
 }
