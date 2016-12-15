@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bowling
+﻿namespace Bowling
 {
     public class BowlingGame
     {
@@ -8,7 +6,7 @@ namespace Bowling
         private int _frame = 1;
         private int _rollInFrame = 1;
         private int _frameScore = 0;
-        private int[,] _scorecard = new int[11, 3];
+        private readonly int[,] _scorecard = new int[11, 3];
 
         public BowlingGame()
         {
@@ -29,8 +27,9 @@ namespace Bowling
             if (PreviousFrameWasStrike())
             {
                 _score = _score + pins;
+                if (PreviousTwoFramesWereStrikes() && ThisIsFirstRollInFrame()) _score = _score + 10;
             }
-            else if (PreviousFrameWasSpare() && _rollInFrame == 1)
+            else if (PreviousFrameWasSpare() && ThisIsFirstRollInFrame())
             {
                 _score = _score + pins;
             }
@@ -38,11 +37,21 @@ namespace Bowling
             _score = _score + pins;
             _rollInFrame++;
 
-            if (_rollInFrame <= 2 ) return;
+            if (_rollInFrame <= 2) return;
             //reset for next frame 
             _frame++;
             _rollInFrame = 1;
             _frameScore = 0;
+        }
+
+        private bool ThisIsFirstRollInFrame()
+        {
+            return _rollInFrame == 1;
+        }
+
+        private bool PreviousTwoFramesWereStrikes()
+        {
+            return _scorecard[_frame - 2, 1] == 10 && _scorecard[_frame - 1, 1] == 10;
         }
 
         private bool PreviousFrameWasStrike()
