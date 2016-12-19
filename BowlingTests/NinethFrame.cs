@@ -54,9 +54,9 @@ namespace BowlingTests
 
         [Theory]
         [InlineData(1, 1, 10, 10, 10, 9, 0, 0, 0, 2, 1, 8, 0, 1, 2, 103)]
-        public void FirstBallInFrameWithSpares(int f1b1, int f1b2, int f2b1, int f2b2, int f3b1,
-    int f4b1, int f5b1, int f6b1, int f6b2,
-    int f7b1, int f7b2, int f8b1, int f8b2, int f9b1, int f9b2, int expectedScore)
+        public void FirstBallInFrameWithStrikes(int f1b1, int f1b2, int f2b1, int f2b2, int f3b1,
+                                                int f4b1, int f5b1, int f6b1, int f6b2,
+                                                int f7b1, int f7b2, int f8b1, int f8b2, int f9b1, int f9b2, int expectedScore)
         {
             // first frame
             _game.Roll(f1b1);
