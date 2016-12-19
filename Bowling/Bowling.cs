@@ -11,6 +11,14 @@
 
         public void Roll(int pins)
         {
+            if (_rollInFrame == 1 && pins >= 10) // strike
+            {
+                pins = 10;
+                _scorecardrolls[_frame, _rollInFrame] = pins;
+                _scorecardrolls[_frame, _rollInFrame+1] = 0;  // not needed? 
+                _frame++; // there will be no roll#2, just jump to next frame. 
+                return;
+            }
             if (_rollInFrame == 2 && (_scorecardrolls[_frame, 1] + pins > 10))
             {
                 pins = 10 - _scorecardrolls[_frame, 1];

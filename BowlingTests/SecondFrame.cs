@@ -12,8 +12,6 @@ namespace BowlingTests
         [InlineData(3, 5, 4, 12)]
         [InlineData(5, 6, 4, 18)] // spare
         [InlineData(6, 5, 9, 28)] // spare
-        [InlineData(10, 0, 9, 28)] // strike
-        [InlineData(10, 2, 9, 28)] // strike, mis-recorded
         public void FirstBallShouldAddToFirstFrame(int frameOneBallOne, int frameOneBallTwo, int frameTwoBallOne, int expectedScore)
         {
             //first frame
@@ -24,6 +22,19 @@ namespace BowlingTests
 
             Assert.Equal(expectedScore, _game.Score());
         }
+
+        [Theory]
+        [InlineData(10, 9, 28)] // strike
+        public void FirstBallShouldAddToFirstFrameStrike(int frameOneBallOne, int frameTwoBallOne, int expectedScore)
+        {
+            //first frame
+            _game.Roll(frameOneBallOne);
+            //second frame 
+            _game.Roll(frameTwoBallOne);
+
+            Assert.Equal(expectedScore, _game.Score());
+        }
+
 
         [Theory]
         [InlineData(3, 5, 4, 5, 17)]
