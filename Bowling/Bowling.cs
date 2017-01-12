@@ -11,31 +11,27 @@
 
         public void Roll(int pins)
         {
-            if (_rollInFrame == 1 && pins >= 10) // strike
+            if (TenOnFirstRoll(pins)) // strike
             {
                 pins = 10;
                 _scorecardrolls[_frame, _rollInFrame] = pins;
-                _scorecardrolls[_frame, _rollInFrame+1] = 0;  // not needed? 
                 _frame++; // there will be no roll#2, just jump to next frame. 
                 return;
             }
-            if (_rollInFrame == 2 && (_scorecardrolls[_frame, 1] + pins > 10))
+            if (TenOnTwoRolls(pins)) // spare
             {
                 pins = 10 - _scorecardrolls[_frame, 1];
             }
+
             _scorecardrolls[_frame, _rollInFrame] = pins;
-            if (_frame >= 10 && pins == 10 && _rollInFrame == 1)
-            {
-                _frame ++;
-                return;
-            }
+
             _rollInFrame++;
             if (_rollInFrame <= 2) return;
             //reset for next frame 
             _frame++;
             _rollInFrame = 1;
         }
-        
+
         public int Score()
         {
             int score = 0;
@@ -73,5 +69,16 @@
         {
             return _scorecardrolls[f, 1] == 10;
         }
+
+        private bool TenOnFirstRoll(int pins)
+        {
+            return _rollInFrame == 1 && pins >= 10;
+        }
+
+        private bool TenOnTwoRolls(int pins)
+        {
+            return _rollInFrame == 2 && (_scorecardrolls[_frame, 1] + pins > 10);
+        }
+
     }
 }
