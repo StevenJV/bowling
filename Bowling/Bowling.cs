@@ -1,4 +1,6 @@
-﻿namespace Bowling
+﻿using System;
+
+namespace Bowling
 {
     public class BowlingGame
     {
@@ -49,7 +51,13 @@
                     { _scorecardframe[frame] += _scorecardrolls[frame + 1, 2]; } // add second ball from next frame
                 }
 
-                if (FrameIsASpare(frame))
+                //if (FrameIsASpare(frame))
+                Func<int, bool> isSpare =
+                    (x) =>
+                        (_scorecardrolls[x, 1] + _scorecardrolls[x, 2] == 10) &&
+                        (_scorecardrolls[x, 1] != 10);
+
+                if ( isSpare(frame) )
                 {
                     _scorecardframe[frame] += _scorecardrolls[frame + 1, 1];
                 }
