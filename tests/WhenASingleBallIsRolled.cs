@@ -1,7 +1,5 @@
-﻿using System;
-using Bowling;
+﻿using Bowling;
 using Xunit;
-using Xunit.Should;
 
 namespace BowlingTests
 {
@@ -13,7 +11,7 @@ namespace BowlingTests
     public void SingleDigitPinsAreScoredCorrectly()
     {
       game.Roll(1);
-      game.Score().ShouldBe(1);
+      Assert.Equal(1, game.Score());
 
     }
   }
