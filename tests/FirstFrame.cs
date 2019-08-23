@@ -1,4 +1,5 @@
-﻿using Bowling;
+﻿using System.Runtime.CompilerServices;
+using Bowling;
 using Xunit;
 using Xunit.Sdk;
 
@@ -18,6 +19,15 @@ namespace Tests
         {
             _game.Roll(firstBallPins);
             Assert.Equal(firstBallPins, _game.Score());
+        }
+
+        [Theory]
+        [InlineData(11)]
+        public void MaxPinsPossibleIsTen(int firstBallPins)
+        {
+            var MaxPins = 10;
+            _game.Roll(firstBallPins);
+            Assert.Equal(MaxPins, _game.Score());
         }
 
     }
