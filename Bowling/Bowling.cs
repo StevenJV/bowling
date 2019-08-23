@@ -19,7 +19,16 @@ namespace Bowling
             {
                 pins = MaxPinsPerBall;
             }
-            _score += pins;
+
+            var MaxPinsPerFrame = 10;
+            if (_score + pins > MaxPinsPerFrame)
+            {
+                _score = MaxPinsPerFrame;
+            }
+            else
+            {
+                _score += pins;
+            }
         }
 
         public int Score()

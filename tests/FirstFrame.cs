@@ -43,7 +43,6 @@ namespace Tests
         [InlineData(0, 0)]
         [InlineData(1, 2)]
         [InlineData(5, 5)]
-        [InlineData(10, 2)]
         public void SecondBallAddsToFirstBallScore(int firstBallPins, int secondBallPins)
         {
             _game.Roll(firstBallPins);
@@ -51,5 +50,13 @@ namespace Tests
             Assert.Equal(firstBallPins + secondBallPins, _game.Score());
         }
 
+        [Theory]
+        [InlineData(1, 10)]
+        public void TwoBallsCannotScoreMoreThanTen(int firstBallPins, int secondBallPins)
+        {
+            _game.Roll(firstBallPins);
+            _game.Roll(secondBallPins);
+            Assert.InRange(_game.Score(), 0, 10);
+        }
     }
 }
