@@ -8,6 +8,12 @@ namespace Bowling
         private int _score = 0;
         public void Roll(int pins)
         {
+            var MinPinsPerBall = 0;
+            if (pins < MinPinsPerBall)
+            {
+                pins = MinPinsPerBall;
+            }
+
             var MaxPinsPerBall = 10;
             if (pins > MaxPinsPerBall)
             {

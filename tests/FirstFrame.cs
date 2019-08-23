@@ -30,5 +30,13 @@ namespace Tests
             Assert.Equal(MaxPins, _game.Score());
         }
 
+        [Theory]
+        [InlineData(-1)]
+        public void MinPinsPossibleIsZero(int firstBallPins)
+        {
+            var MinPins = 0;
+            _game.Roll(firstBallPins);
+            Assert.Equal(MinPins, _game.Score());
+        }
     }
 }
