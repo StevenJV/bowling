@@ -38,5 +38,18 @@ namespace Tests
             _game.Roll(firstBallPins);
             Assert.Equal(MinPins, _game.Score());
         }
+
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(1, 2)]
+        [InlineData(5, 5)]
+        [InlineData(10, 2)]
+        public void SecondBallAddsToFirstBallScore(int firstBallPins, int secondBallPins)
+        {
+            _game.Roll(firstBallPins);
+            _game.Roll(secondBallPins);
+            Assert.Equal(firstBallPins + secondBallPins, _game.Score());
+        }
+
     }
 }
