@@ -22,24 +22,6 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(11)]
-        public void MaxPinsPossibleIsTen(int firstBallPins)
-        {
-            var MaxPins = 10;
-            _game.Roll(firstBallPins);
-            Assert.Equal(MaxPins, _game.Score());
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        public void MinPinsPossibleIsZero(int firstBallPins)
-        {
-            var MinPins = 0;
-            _game.Roll(firstBallPins);
-            Assert.Equal(MinPins, _game.Score());
-        }
-
-        [Theory]
         [InlineData(0, 0)]
         [InlineData(1, 2)]
         [InlineData(5, 5)]

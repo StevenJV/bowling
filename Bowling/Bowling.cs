@@ -1,40 +1,27 @@
-﻿using System;
-using System.Net.NetworkInformation;
+﻿using Ardalis.GuardClauses;
 
 namespace Bowling
 {
     public class BowlingGame
     {
-        private int _score = 0;
+        private const int MinPinsPerBall = 0;
+        private const int MaxPinsPerBall = 10;
+        private const int MaxPinsPerFrame = 10;
+        private int _score;
+
         public void Roll(int pins)
         {
-            var MinPinsPerBall = 0;
-            if (pins < MinPinsPerBall)
-            {
-                pins = MinPinsPerBall;
-            }
+            Guard.Against.OutOfRange(pins, $"pins ({MinPinsPerBall}-{MaxPinsPerBall})", MinPinsPerBall, MaxPinsPerBall);
 
-            var MaxPinsPerBall = 10;
-            if (pins > MaxPinsPerBall)
-            {
-                pins = MaxPinsPerBall;
-            }
-
-            var MaxPinsPerFrame = 10;
             if (_score + pins > MaxPinsPerFrame)
-            {
                 _score = MaxPinsPerFrame;
-            }
             else
-            {
                 _score += pins;
-            }
         }
 
         public int Score()
         {
             return _score;
         }
-
     }
 }
