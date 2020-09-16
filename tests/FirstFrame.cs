@@ -1,7 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using Bowling;
+﻿using Bowling;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Tests
 {
