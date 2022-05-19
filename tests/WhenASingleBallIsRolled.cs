@@ -18,7 +18,7 @@ namespace BowlingTests
     [InlineData(7, 7)]
     [InlineData(8, 8)]
     [InlineData(9, 9)]
-    [InlineData(10, 10)]
+    [InlineData(10, 0)]
     public void SingleDigitPinsAreScoredCorrectly(int value1, int expected)
     {
       game.Roll(value1);
